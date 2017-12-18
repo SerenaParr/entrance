@@ -1,0 +1,67 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script>
+
+
+<script>
+function showMailingPopUp() {
+    require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us17.list-manage.com","uuid":"423d7cf4ce404d74fa25f0dea","lid":"3906fa6296"}) })
+    document.cookie = 'MCPopupClosed=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+};
+
+var hijackSubscribeButton = function() {
+  
+  var aTags = document.getElementsByTagName("a");
+  // check if mobile
+  if( window.innerWidth < 640 ) {
+    aTags = $( '.Mobile-overlay-menu-main a ' );
+  } 
+  
+
+  var searchText = "SUBSCRIBE";
+  var subscribeButton;
+
+  for (var i = 0; i < aTags.length; i++) {
+    if (aTags[i].innerText == searchText) {
+      subscribeButton = aTags[i];
+      break;
+    }
+  }
+  
+  	if( !subscribeButton ) {
+     	console.log( 'didnt find button looking again' );
+	 	setTimeout( hijackSubscribeButton, 150 );
+   	} else {
+    	console.log( 'subscribe button hijacked' );
+   	 	subscribeButton.onclick = function(e) {
+   			 e.preventDefault();
+   			 showMailingPopUp();
+    	}
+	
+  	}
+    
+}
+  
+hijackSubscribeButton();
+
+ /*
+window.onsquarespaceajax = function() {
+   window.manageCartVisibility();
+};
+  
+var manageCartVisibility = function() {
+
+  	var productsList = document.getElementsByClassName( 'ProductList' );
+   if( productList ) {
+     console.log( 'on shop page' ); 
+   } else {
+     console.log( 'not shop page' );
+   }
+  
+}
+*/
+
+//document.getElementById("open-popup").onclick = function() {showMailingPopUp()};
+</script>
+
+<!--script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script>
+<script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us15.list-manage.com","uuid":"64108566a1ef0bec76df7b527","lid":"a2497fec44"}) })</script-->
